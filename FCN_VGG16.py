@@ -16,6 +16,7 @@ from keras.utils import to_categorical
 import os
 from os.path import join
 import cv2
+from time import time
 
 nb_classes = 4
 input_shape = (560, 840, 3)   # (360, 640, 3), but with padding
@@ -120,13 +121,13 @@ model = Model(inputs = base_model.input, outputs = net_output)
 
 # Freeze the base layers.
 for l, layer in enumerate(model.layers):
-    if l < 19:
+    if l < 11:    # < 19 freezes the entire base; < 11 freezes 1st 3 blocks
         layer.trainable = False
 
 # Compile the model.
 model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
 
-# Let's look at it!Now to p
+# Let's look at it!
 #print model.summary()
 
 
@@ -165,11 +166,18 @@ def generate_image_mask_pairs():
 
 gen_im_msk = generate_image_mask_pairs()
 
-# Fit the training data.
-model.fit_generator(gen_im_msk, epochs=11, steps_per_epoch=100)
+# Fit the training data. 
+# Note: the class_weights were calculated by median_freq_balancing.py
+model.fit_generator(gen_im_msk, 
+                    epochs = 100, 
+                    steps_per_epoch = 100)
+#                    class_weight = {0: 0.81,  Sadly, this doesn't work
+#                                    1: 0.21,
+#                                    2: 1.31,
+#                                    3: 2.52})
 
 # Save the trained model.
-model.save('/home/icg/FCC_VGG16s/keras_model.h5')
+model.save('/home/icg/FCC_VGG16s/keras_model3.h5')
 # To load this compiled model:
 #model = keras.models.load_model('/home/icg/Martin/keras_model.h5') 
 

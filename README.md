@@ -1,4 +1,4 @@
-#Repository for semantic segmentation using VGG16s, using Keras 2 with a TensorFlow back-end, and implemented in Python 2.7.
+# Repository for semantic segmentation using VGG16s, using Keras 2 with a TensorFlow back-end, and implemented in Python 2.7.
 
 Author - Rafael Espericueta (with significant help from Martin Hirzer of the Graz Institute for Computer Graphics and Vision)
 
