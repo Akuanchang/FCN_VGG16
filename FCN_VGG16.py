@@ -121,7 +121,7 @@ model = Model(inputs = base_model.input, outputs = net_output)
 
 # Freeze the base layers.
 for l, layer in enumerate(model.layers):
-    if l < 11:    # < 19 freezes the entire base; < 11 freezes 1st 3 blocks
+    if l < 19:    # < 19 freezes the entire base; < 11 freezes 1st 3 blocks
         layer.trainable = False
 
 # Compile the model.
